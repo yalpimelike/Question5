@@ -23,13 +23,16 @@ public class Customer extends BaseEntity {
     private String city;
     private String country;
 
+
     @Enumerated(EnumType.STRING)
     private CustomerStatus status;
+
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToMany // Without 'cascade' because we need old prices
+
+    @OneToMany(mappedBy = "customer")
     private List<Order> orderList;
 
 

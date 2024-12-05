@@ -35,10 +35,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setCartId(cartId);
-        order.setCustomerId(cart.getCustomer().getId());
-        order.setCustomerEmail(cart.getCustomer().getEmail());
-        order.setCustomerPhone(cart.getCustomer().getPhone());
         order.setShippingAddress(cart.getCustomer().getAddress());
+
+        order.setCustomer(cart.getCustomer());
 
         order.setOrderCode(UUID.randomUUID().toString());
 
