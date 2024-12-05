@@ -1,6 +1,5 @@
 package com.melikeyalpi.question5.dto.request;
 
-import com.melikeyalpi.question5.dto.enums.CustomerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

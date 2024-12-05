@@ -2,7 +2,6 @@ package com.melikeyalpi.question5.dto;
 
 
 import com.melikeyalpi.question5.entity.AddedProduct;
-import com.melikeyalpi.question5.entity.Product;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

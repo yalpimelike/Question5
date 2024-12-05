@@ -1,12 +1,9 @@
 package com.melikeyalpi.question5.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.melikeyalpi.question5.dto.AddedProductDto;
 import com.melikeyalpi.question5.dto.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 
