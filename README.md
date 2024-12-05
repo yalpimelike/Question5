@@ -13,73 +13,76 @@ bildirim sağlanması için exception sınıfları özelleştirildi.
 
 # Entpoins
 
-* AddCustomer    `localhost:9090/api/v1/customer`
+* AddCustomer ->   `localhost:9090/api/v1/customer`
 
 
-* GetProduct    `localhost:9090/api/v1/product/{id}`
+
+* GetProduct ->    `localhost:9090/api/v1/product/{id}`
   
-* CreateProduct    `localhost:9090/api/v1/product`
+* CreateProduct ->    `localhost:9090/api/v1/product`
   
-* UpdateProduct   `localhost:9090/api/v1/product`
+* UpdateProduct ->   `localhost:9090/api/v1/product`
 
-* DeleteProduct      `localhost:9090/api/v1/product?id={id}`
+* DeleteProduct ->      `localhost:9090/api/v1/product?id={id}`
+
+    
+
+* GetCart ->   `localhost:9090/api/v1/cart/{id}`
   
-
-* GetCart   `localhost:9090/api/v1/cart/{id}`
+* UpdateCart ->    `localhost:9090/api/v1/cart?cartId={id}`
   
-* UpdateCart    `localhost:9090/api/v1/cart?cartId={id}`
+* EmptyCart ->    `localhost:9090/api/v1/cart?customerId={id}`
+
+* AddProductToCart ->   `localhost:9090/api/v1/cart`
+
+* RemoveProductFromCart ->  `localhost:9090/api/v1/cart`
+
+
+    
+
+* PlaceOrder ->  `localhost:9090/api/v1/order/{id}`
   
-* EmptyCart    `localhost:9090/api/v1/cart?customerId={id}`
-
-* AddProductToCart   `localhost:9090/api/v1/cart`
-
-* RemoveProductFromCart  `localhost:9090/api/v1/cart`
-
-
-
-* PlaceOrder   `localhost:9090/api/v1/order/{id}`
+* GetOrderForCode -> `localhost:9090/api/v1/order/{code}`
   
-* GetOrderForCode `localhost:9090/api/v1/order/{code}`
-  
-* GetAllOrdersForCustomer  `localhost:9090/api/v1/order?customerId={id}`
+* GetAllOrdersForCustomer ->  `localhost:9090/api/v1/order?customerId={id}`
 
 # Database
 
-    Customer Tablosu
+Customer Tablosu
 
 ![table_customers.png](photos%2Fdb%2Ftable_customers.png)
 
-    Cart Tablosu
+Cart Tablosu
 
 ![table_carts.png](photos%2Fdb%2Ftable_carts.png)
     
-    Product Tablosu
+Product Tablosu
 
 ![table_products.png](photos%2Fdb%2Ftable_products.png)
     
-    Cart Entity sinde Bulunan Product Tablosu
+Cart Entity sinde Bulunan Product Tablosu
 
 ![table_cart_products.png](photos%2Fdb%2Ftable_cart_products.png)
 
-    Order Tablosu
+Order Tablosu
 
 ![table_orders.png](photos%2Fdb%2Ftable_orders.png)
 
-    Order Entity sinde Bulunan Product Tablosu
+Order Entity sinde Bulunan Product Tablosu
 
 ![table_orders_products.png](photos%2Fdb%2Ftable_orders_products.png)
 
 # İşleyiş
 
-    Müşteri oluşturulduğunda ona ait Cart oluşturulur.
+* Müşteri oluşturulduğunda ona ait Cart oluşturulur.
 
 ![addCustomer.png](photos%2Fpostman%2FaddCustomer.png)
 
-    Kullanıcı için Cart
+* Kullanıcı için Cart
 
 ![cartByID.png](photos%2Fpostman%2FcartByID.png)
 
-    Cart içerisinde ki ürün işlemlerinin herbirinde toplam fiyat (cartPrice*), adet (count) ve stok (stock) bilgisi güncellenir.
+* Cart içerisinde ki ürün işlemlerinin herbirinde toplam fiyat (cartPrice), adet (count) ve stok (stock) bilgisi güncellenir.
 
 ![addProductToCart.png](photos%2Fpostman%2FaddProductToCart.png)
 
@@ -89,10 +92,10 @@ bildirim sağlanması için exception sınıfları özelleştirildi.
 
 ![addProductToCart4.png](photos%2Fpostman%2FaddProductToCart4.png)
     
-    Remove Product To Cart
+Remove Product To Cart
 
 ![removeProductToCart.png](photos%2Fpostman%2FremoveProductToCart.png)
 
-    Sipariş oluşturulduğunda Cart ta bulunan tüm bilgiler alınır ve Cart temizlenir.
+* Sipariş oluşturulduğunda Cart ta bulunan tüm bilgiler alınır ve Cart temizlenir.
 
 ![createOrder.png](photos%2Fpostman%2FcreateOrder.png)
