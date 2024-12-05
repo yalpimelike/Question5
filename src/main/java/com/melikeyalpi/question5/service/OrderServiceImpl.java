@@ -34,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BasicException(ExceptionMessages.DATA_NOT_FOUNT);
         }
 
+        order.setCartId(cartId);
         order.setCustomerId(cart.getCustomer().getId());
         order.setCustomerEmail(cart.getCustomer().getEmail());
         order.setCustomerPhone(cart.getCustomer().getPhone());

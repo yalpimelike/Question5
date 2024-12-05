@@ -14,6 +14,7 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
+    private Long cartId;
     private Long customerId;
     private String customerEmail;
     private String customerPhone;

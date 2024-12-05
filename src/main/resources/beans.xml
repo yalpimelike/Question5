@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/jpa
+       https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!-- Services -->
+
+    <bean id="customerAuthService" class="com.melikeyalpi.question5.service.CustomerAuthServiceImpl"/>
+
+    <bean id="customerService" class="com.melikeyalpi.question5.service.CustomerServiceImpl"/>
+
+    <bean id="cartService" class="com.melikeyalpi.question5.service.CartServiceImpl"/>
+
+    <!-- Controllers -->
+
+    <bean id="customerController" class="com.melikeyalpi.question5.controller.CustomerController">
+       <constructor-arg name="customerService" ref="customerAuthService" />
+        <constructor-arg name="cartService" ref="cartService"/>
+<!--        Must have setter to class for use property                      -->
+<!--        <property name="customerService" ref="customerService"/>        -->
+<!--        <property name="cartService" ref="cartService"/>                -->
+    </bean>
+
+
+<!--    @EnableJpaRepositories("com.melikeyalpi.question5.repository")    // alternative //         -->
+    <jpa:repositories base-package="com.melikeyalpi.question5.repository"/>
+
+</beans>

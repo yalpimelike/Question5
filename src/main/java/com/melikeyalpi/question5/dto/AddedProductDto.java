@@ -15,7 +15,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class AddedProductDto {
 
-    private Long cartId;
     private String productName;
     private int count;
     private int totalPrice;
@@ -23,7 +22,6 @@ public class AddedProductDto {
     private int productStoke;
 
     public AddedProductDto(AddedProduct addedProduct) {
-      this.cartId = addedProduct.getCartId();
       this.productName = addedProduct.getProduct().getName();
       this.count = addedProduct.getCount();
       this.totalPrice = addedProduct.getTotalPrice();

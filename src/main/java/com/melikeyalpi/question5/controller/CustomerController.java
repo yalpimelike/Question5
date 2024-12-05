@@ -6,17 +6,20 @@ import com.melikeyalpi.question5.dto.request.CustomerRequest;
 import com.melikeyalpi.question5.entity.Customer;
 import com.melikeyalpi.question5.service.CartService;
 import com.melikeyalpi.question5.service.CustomerService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
+@AllArgsConstructor
+
 public class CustomerController {
 
     private CustomerService customerService;
 
-    private final CartService cartService;
+    private CartService cartService;
 
 
     @PostMapping
@@ -25,5 +28,4 @@ public class CustomerController {
         cartService.createCart(addedCustomer);
         return CustomerConverter.toDto(addedCustomer);
     }
-
 }

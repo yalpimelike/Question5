@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
-// TODO dont forget
 @ImportResource("classpath:beans.xml")
 @SpringBootApplication
 public class Question5Application {

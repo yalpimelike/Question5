@@ -17,6 +17,7 @@ import java.util.List;
 public class Order extends BaseEntity {
 
     private Long customerId;
+    private Long cartId;
     private String customerEmail;
     private String customerPhone;
     private String orderCode;
