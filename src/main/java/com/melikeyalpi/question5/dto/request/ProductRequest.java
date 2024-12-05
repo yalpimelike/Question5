@@ -8,6 +8,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
+
     private String name;
-    private int price,stoke;
+    private String description;
+    private String category;
+    private String imageUrl;
+    private int price;
+    private int stock;
+
 }

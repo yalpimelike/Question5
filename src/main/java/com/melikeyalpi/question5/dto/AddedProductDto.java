@@ -16,7 +16,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class AddedProductDto {
 
-    //private Long id;
     private Long cartId;
     private String productName;
     private int count;

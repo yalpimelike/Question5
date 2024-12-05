@@ -14,6 +14,9 @@ import lombok.*;
 public class Product extends BaseEntity {
 
     private String name;
+    private String description;
+    private String category;
+    private String imageUrl;
     private int price;
     private int stock;
 

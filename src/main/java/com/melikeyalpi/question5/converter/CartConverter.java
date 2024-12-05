@@ -7,8 +7,10 @@ public class CartConverter {
 
     public static CartDto cartDto(Cart cart) {
         return CartDto.builder()
+                .id(cart.getId())
                 .customerId(cart.getCustomer().getId())
-                .totalPrice(cart.getCartPrice())
+                .customerName(cart.getCustomer().getName())
+                .cartPrice(cart.getCartPrice())
                 .productList(cart.getProductList())
                 .build();
     }

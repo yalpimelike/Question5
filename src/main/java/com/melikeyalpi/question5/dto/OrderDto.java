@@ -13,10 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDto {
 
+    private Long id;
     private Long customerId;
     private String customerEmail;
     private String customerPhone;
-
     private String orderCode;
 
     private List<AddedProductDto> productList;

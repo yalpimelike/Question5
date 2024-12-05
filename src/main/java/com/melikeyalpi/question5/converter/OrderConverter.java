@@ -7,6 +7,8 @@ public class OrderConverter {
 
     public static OrderDto toDto(Order order) {
         return OrderDto.builder()
+                .id(order.getId())
+                .customerId(order.getCustomerId())
                 .customerEmail(order.getCustomerEmail())
                 .customerPhone(order.getCustomerPhone())
                 .orderCode(order.getOrderCode())

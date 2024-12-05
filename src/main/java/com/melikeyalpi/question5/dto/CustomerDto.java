@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerDto {
 
+    private Long id;
     private String name;
+    private String surname;
+    private String username;
     private String address;
     private String phone;
     private String email;

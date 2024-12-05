@@ -9,5 +9,5 @@ public class ExceptionMessages {
     public static final String DATA_NOT_FOUNT = "Data not found.";
     public static final String OUT_OF_STOCK = "Out of stock.";
     public static final String DB_OPERATION = "Database operation failed.";
-
+    public static final String CURRENT_USERNAME = "Username is available." ;
 }
