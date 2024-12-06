@@ -77,7 +77,7 @@ bildirim sağlanması için exception sınıfı özelleştirildi.
 
 ## AddCustomer
 
-![addCustomer.png](photos%2Fpostman%2FaddCustomer.png)
+![AddCustomer.png](photos%2Fpostman%2FAddCustomer.png)
 
 Müşteri oluşturulduğunda o müşteriye ait Cart oluşturma işlemide gerçekleştirilir.
 
@@ -116,7 +116,7 @@ Cart fiyat durumu tekrar güncellenir.
 
 ## CreateOrder
 
-![createOrder.png](photos%2Fpostman%2FcreateOrder.png)
+![CreateOrder.png](photos%2Fpostman%2FCreateOrder.png)
 
 Sipariş oluşturulduğunda Cart ta bulunan tüm bilgiler Order olarak kaydedilir ve Cart temizlenir.
 
