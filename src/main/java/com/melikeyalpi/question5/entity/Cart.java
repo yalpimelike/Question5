@@ -14,14 +14,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Cart extends BaseEntity {
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore // Without customer information than db
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
 
-    @ElementCollection
-    @CollectionTable(name = "cart_products", joinColumns = @JoinColumn(name = "cart_products_id"))
+    @OneToMany(mappedBy = "cart" )
     private List<AddedProduct> productList;
 
 

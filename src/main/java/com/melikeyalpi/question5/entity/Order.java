@@ -1,7 +1,7 @@
 package com.melikeyalpi.question5.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.melikeyalpi.question5.dto.AddedProductDto;
+import com.melikeyalpi.question5.dto.OrderProduct;
 import com.melikeyalpi.question5.dto.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,10 +30,10 @@ public class Order extends BaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "order_products", joinColumns = @JoinColumn(name = "order_products_id"))
-    private List<AddedProductDto> productList;
+    private List<OrderProduct> productList;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;

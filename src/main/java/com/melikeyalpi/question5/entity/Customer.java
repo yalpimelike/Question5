@@ -38,6 +38,19 @@ public class Customer extends BaseEntity {
 
     @Override
     String print() {
-        return "";
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", status=" + status +
+                ", cart=" + cart +
+                ", orderList=" + orderList +
+                '}';
     }
+
 }

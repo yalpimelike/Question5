@@ -7,12 +7,15 @@ import com.melikeyalpi.question5.entity.Product;
 import com.melikeyalpi.question5.dto.request.ToCartRequest;
 import com.melikeyalpi.question5.exception.BasicException;
 import com.melikeyalpi.question5.exception.ExceptionMessages;
+import com.melikeyalpi.question5.repository.AddedProductRepository;
 import com.melikeyalpi.question5.repository.CartRepository;
 import com.melikeyalpi.question5.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -24,17 +27,25 @@ public class CartServiceImpl implements CartService {
 
     private final ProductRepository productRepository;
 
+    private final AddedProductRepository addedProductRepository;
+
 
     public void createCart(Customer customer) {
         Cart cart = new Cart();
         cart.setCustomer(customer);
         cartRepository.save(cart);
-
     }
+
+
 
     public Cart getCart(Long id) {
-        return cartRepository.findById(id).orElse(null);
+        Cart cart = cartRepository.findById(id).orElse(null);
+        if (cart == null) {
+            throw new BasicException(ExceptionMessages.DATA_NOT_FOUNT);
+        }
+        return cart;
     }
+
 
 
     public Cart updateCart(Long cartId) {
@@ -54,6 +65,7 @@ public class CartServiceImpl implements CartService {
     }
 
 
+
     public Cart addProductToCart(ToCartRequest request) {
 
         Cart cart = cartRepository.findById(request.getCartId()).orElse(null);
@@ -69,20 +81,23 @@ public class CartServiceImpl implements CartService {
             throw new BasicException(ExceptionMessages.OUT_OF_STOCK);
         }
 
-        if (cart.getProductList().stream().anyMatch(p -> p.getId().equals(request.getProductId()))){
+        if (cart.getProductList().stream().anyMatch(addedProduct -> addedProduct.getProduct().getId().equals(request.getProductId()))){
             // current same product
             AddedProduct addedProduct = cart.getProductList().stream()
-                    .filter(p -> p.getId().equals(request.getProductId())).findAny().get();
+                    .filter(p -> p.getProduct().getId().equals(request.getProductId())).findAny().get();
+
             addedProduct.setCount(addedProduct.getCount() + 1);
 
             addedProduct.setTotalPrice(product.getPrice() * addedProduct.getCount());
+            AddedProduct savedAddedProduct = addedProductRepository.save(addedProduct);
 
             cart.getProductList().remove(addedProduct);
-            cart.getProductList().add(addedProduct);
+            cart.getProductList().add(savedAddedProduct);
         }
         else {
-            cart.getProductList().add(new AddedProduct(product,cart.getId()));
+            cart.getProductList().add(addedProductRepository.save(new AddedProduct(product,cart)));
         }
+
         product.setStock(product.getStock() - 1);
         cart.setCartPrice(calculateCartTotalPrice(cart));
 
@@ -92,6 +107,7 @@ public class CartServiceImpl implements CartService {
     }
 
 
+    @Transactional
     public Cart removeProductFromCart(ToCartRequest request) {
 
         Cart cart = cartRepository.findById(request.getCartId()).orElse(null);
@@ -102,10 +118,10 @@ public class CartServiceImpl implements CartService {
             throw new BasicException(ExceptionMessages.DATA_NOT_FOUNT);
         }
 
-        if (cart.getProductList().stream().anyMatch(p -> p.getId().equals(request.getProductId()))){
+        if (cart.getProductList().stream().anyMatch(p -> p.getProduct().getId().equals(request.getProductId()))){
 
             AddedProduct addedProduct = cart.getProductList().stream()
-                    .filter(p -> p.getId().equals(request.getProductId())).findAny().get();
+                    .filter(p -> p.getProduct().getId().equals(request.getProductId())).findAny().get();
 
             if (addedProduct.getCount() > 1){
                 addedProduct.setCount(addedProduct.getCount() - 1);
@@ -113,8 +129,9 @@ public class CartServiceImpl implements CartService {
             }
             else {
                 cart.getProductList().remove(addedProduct);
-            }
+                addedProductRepository.deleteById(addedProduct.getId());
 
+            }
         }
 
         product.setStock(product.getStock() + 1);
@@ -130,6 +147,40 @@ public class CartServiceImpl implements CartService {
         cart.getProductList().forEach(product -> totalPrice.addAndGet(product.getTotalPrice()));
         return totalPrice.get();
     }
+
+
+
+    public void refreshCart(Product product){
+        List<AddedProduct> addedProductList = addedProductRepository.findAllByProductId(product.getId());
+        addedProductList.forEach(addedProduct ->
+                {
+                    addedProduct.setTotalPrice(product.getPrice() * addedProduct.getCount());
+                }
+        );
+        addedProductRepository.saveAll(addedProductList);
+        addedProductList.forEach(addedProduct -> updateTotalPrice(addedProduct.getCart()));
+    }
+
+    public void refreshCart(List<AddedProduct> addedProductList){
+       addedProductList.forEach(addedProduct -> updateTotalPrice(addedProduct.getCart()));
+    }
+
+
+
+    public void updateTotalPrice(Cart cart) {
+        if (cart != null) {
+            cart.setCartPrice(0);
+            cart.getProductList().forEach(addedProduct -> {
+                cart.setCartPrice(cart.getCartPrice() + addedProduct.getTotalPrice());
+            });
+            cartRepository.save(cart);
+        }
+        else {
+            log.error(ExceptionMessages.DATA_NOT_FOUNT);
+            throw new BasicException(ExceptionMessages.DATA_NOT_FOUNT);
+        }
+    }
+
 
 
 }

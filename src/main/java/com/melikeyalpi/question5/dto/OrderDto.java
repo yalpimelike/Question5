@@ -20,7 +20,7 @@ public class OrderDto {
     private String customerPhone;
     private String orderCode;
 
-    private List<AddedProductDto> productList;
+    private List<OrderProductDto> productList;
 
     private int orderPrice;
 

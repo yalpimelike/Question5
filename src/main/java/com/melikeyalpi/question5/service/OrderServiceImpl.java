@@ -1,10 +1,11 @@
 package com.melikeyalpi.question5.service;
 
-import com.melikeyalpi.question5.dto.AddedProductDto;
+import com.melikeyalpi.question5.dto.OrderProduct;
 import com.melikeyalpi.question5.dto.enums.OrderStatus;
 import com.melikeyalpi.question5.entity.*;
 import com.melikeyalpi.question5.exception.BasicException;
 import com.melikeyalpi.question5.exception.ExceptionMessages;
+import com.melikeyalpi.question5.repository.AddedProductRepository;
 import com.melikeyalpi.question5.repository.CartRepository;
 import com.melikeyalpi.question5.repository.OrderRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final AddedProductRepository addedProductRepository;
 
 
     public Order createOrder(Long cartId) {
@@ -43,20 +45,27 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(OrderStatus.CREATED);
 
+        clearProductListToCart(cart);
         order.setProductList(new ArrayList<>());
 
         cart.getProductList().forEach(product -> {
-            order.getProductList().add(new AddedProductDto(product));
+            order.getProductList().add(new OrderProduct(product));
         });
 
         order.setOrderPrice(cart.getCartPrice());
         orderRepository.save(order);
 
+        clearProductListToCart(cart);
         cart.setProductList(new ArrayList<>());
+
         cart.setCartPrice(0);
         cartRepository.save(cart);
 
         return order;
+    }
+
+    public void clearProductListToCart(Cart cart) {
+        addedProductRepository.deleteAll(cart.getProductList());
     }
 
 
@@ -70,5 +79,6 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getAllOrdersForCustomer(Long id) {
         return orderRepository.findByCustomerId(id).orElse(new ArrayList<>());
     }
+
 
 }

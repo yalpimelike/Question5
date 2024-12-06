@@ -1,36 +1,45 @@
 package com.melikeyalpi.question5.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 
 @Getter
 @Setter
-@Embeddable
+@Entity
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class AddedProduct {
+public class AddedProduct extends BaseEntity {
 
     private static final int START_COUNT = 1;
 
-    private Long id;
 
-    private Long cartId;
+    @ManyToOne
+    @JsonIgnore
+    private Cart cart;
 
     private int count;
 
     private int totalPrice; // Same product's total price
 
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
 
-    public AddedProduct(Product product, Long cartId) {
-        this.id = product.getId();
-        this.cartId = cartId;
+
+    public AddedProduct(Product product, Cart cart) {
+        this.cart = cart;
         this.product = product;
         this.count = START_COUNT;
         this.totalPrice = product.getPrice();
     }
 
+
+    @Override
+    String print() {
+        return "";
+    }
 }

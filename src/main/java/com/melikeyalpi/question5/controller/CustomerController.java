@@ -6,6 +6,7 @@ import com.melikeyalpi.question5.dto.request.CustomerRequest;
 import com.melikeyalpi.question5.entity.Customer;
 import com.melikeyalpi.question5.service.CartService;
 import com.melikeyalpi.question5.service.CustomerService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -8,94 +8,128 @@ aracılığıyla sağlandı.
 hem de XML tabanlı bean yapılandırmasıyla geliştirildi.
 
 * Hataların daha net anlaşılabilmesi ve kullanıcılara daha iyi geri 
-bildirim sağlanması için exception sınıfları özelleştirildi.
+bildirim sağlanması için exception sınıfı özelleştirildi.
 
 
 # Entpoins
 
-* AddCustomer ->   `localhost:9090/api/v1/customer`
+* **AddCustomer** ->   `localhost:9090/api/v1/customer`
 
+----------------
 
-
-* GetProduct ->    `localhost:9090/api/v1/product/{id}`
+* **GetProduct** ->    `localhost:9090/api/v1/product/{id}`
   
-* CreateProduct ->    `localhost:9090/api/v1/product`
+* **CreateProduct** ->    `localhost:9090/api/v1/product`
   
-* UpdateProduct ->   `localhost:9090/api/v1/product`
+* **UpdateProduct** ->   `localhost:9090/api/v1/product`
 
-* DeleteProduct ->      `localhost:9090/api/v1/product?id={id}`
+* **DeleteProduct** ->      `localhost:9090/api/v1/product?id={id}`
 
+----------------
+
+* **GetCart** ->   `localhost:9090/api/v1/cart/{id}`
+  
+* **UpdateCart** ->    `localhost:9090/api/v1/cart?cartId={id}`
+  
+* **EmptyCart** ->    `localhost:9090/api/v1/cart?customerId={id}`
+
+* **AddProductToCart** ->   `localhost:9090/api/v1/cart`
+
+* **RemoveProductFromCart** ->  `localhost:9090/api/v1/cart`
+
+
+----------------
     
 
-* GetCart ->   `localhost:9090/api/v1/cart/{id}`
+* **PlaceOrder** ->  `localhost:9090/api/v1/order/{id}`
   
-* UpdateCart ->    `localhost:9090/api/v1/cart?cartId={id}`
+* **GetOrderForCode** -> `localhost:9090/api/v1/order/{code}`
   
-* EmptyCart ->    `localhost:9090/api/v1/cart?customerId={id}`
-
-* AddProductToCart ->   `localhost:9090/api/v1/cart`
-
-* RemoveProductFromCart ->  `localhost:9090/api/v1/cart`
-
-
-    
-
-* PlaceOrder ->  `localhost:9090/api/v1/order/{id}`
-  
-* GetOrderForCode -> `localhost:9090/api/v1/order/{code}`
-  
-* GetAllOrdersForCustomer ->  `localhost:9090/api/v1/order?customerId={id}`
+* **GetAllOrdersForCustomer** ->  `localhost:9090/api/v1/order?customerId={id}`
 
 # Database
 
-Customer Tablosu
+### Customer
 
 ![table_customers.png](photos%2Fdb%2Ftable_customers.png)
 
-Cart Tablosu
+### Cart
 
 ![table_carts.png](photos%2Fdb%2Ftable_carts.png)
     
-Product Tablosu
+### Product
 
 ![table_products.png](photos%2Fdb%2Ftable_products.png)
     
-Cart Entity sinde Bulunan Product Tablosu
+### Added Product
 
-![table_cart_products.png](photos%2Fdb%2Ftable_cart_products.png)
+![table_added_products.png](photos%2Fdb%2Ftable_added_products.png)
 
-Order Tablosu
+### Order
 
 ![table_orders.png](photos%2Fdb%2Ftable_orders.png)
 
-Order Entity sinde Bulunan Product Tablosu
+### Order Product
 
-![table_orders_products.png](photos%2Fdb%2Ftable_orders_products.png)
+![table_order_products.png](photos%2Fdb%2Ftable_order_products.png)
 
 # İşleyiş
 
-* Müşteri oluşturulduğunda ona ait Cart oluşturulur.
+## AddCustomer
 
 ![addCustomer.png](photos%2Fpostman%2FaddCustomer.png)
 
-* Kullanıcı için Cart
+Müşteri oluşturulduğunda o müşteriye ait Cart oluşturma işlemide gerçekleştirilir.
 
-![cartByID.png](photos%2Fpostman%2FcartByID.png)
+## GetCartById
 
-* Cart içerisinde ki ürün işlemlerinin herbirinde toplam fiyat (cartPrice), adet (count) ve stok (stock) bilgisi güncellenir.
+![GetCartById.png](photos%2Fpostman%2FGetCartById.png)
 
-![addProductToCart.png](photos%2Fpostman%2FaddProductToCart.png)
+Müşteri için oluşturulan Cart.
 
-![addProductToCart2.png](photos%2Fpostman%2FaddProductToCart2.png)
+## AddProductFromCart
 
-![addProductToCart3.png](photos%2Fpostman%2FaddProductToCart3.png)
+![AddProductFromCart.png](photos%2Fpostman%2FAddProductFromCart.png)
 
-![addProductToCart4.png](photos%2Fpostman%2FaddProductToCart4.png)
-    
-Remove Product To Cart
+Cart ta eklenen her ürün için Ürün Adeti ( **count** ) Aynı Ürünlerin Toplam Fiyatı ( **totalPrice** ) ve Cartın Toplam Fiyatı
+( **cartPrice** ) hesaplanır ve güncellenir.
 
-![removeProductToCart.png](photos%2Fpostman%2FremoveProductToCart.png)
+Ürün Stok bilgisi kontrol edilir ve güncellenir.
 
-* Sipariş oluşturulduğunda Cart ta bulunan tüm bilgiler alınır ve Cart temizlenir.
+
+## RemoveProductToCart
+
+![RemoveProductFromCart.png](photos%2Fpostman%2FRemoveProductFromCart.png)
+
+Carttan silinen her ürün için Cartın tüm bilgileri ve ürün stok bilgisi güncellenir.
+
+
+## ProductUpdate
+
+![ProductUpdate.png](photos%2Fpostman%2FProductUpdate.png)
+
+Ürün bilgisi güncellendiğinde Ürünün bulunduğu her Cartta Ürün bilgileri güncellenir.
+Ürünle beraber bulunduğu Cartta güncel fiyat bilgisi tekrar hesaplanır ve güncellenir.
+
+Bir Ürünün silinmesi durumunda bulunduğu Cartlardada ürün bilgisi silinir. Ürün silindikten sonra 
+Cart fiyat durumu tekrar güncellenir. 
+
+## CreateOrder
 
 ![createOrder.png](photos%2Fpostman%2FcreateOrder.png)
+
+Sipariş oluşturulduğunda Cart ta bulunan tüm bilgiler Order olarak kaydedilir ve Cart temizlenir.
+
+## GetAllOrdersForCustomer
+
+![OrdersByCustomerId.png](photos%2Fpostman%2FOrdersByCustomerId.png)
+
+Müşteri siparişi verdikten sonra aldığı ürünün güncel fiyatını - **productCurrenPrice** - alanında görebilmektedir.
+
+
+
+
+
+
+
+

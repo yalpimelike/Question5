@@ -1,5 +1,6 @@
 package com.melikeyalpi.question5.service;
 
+import com.melikeyalpi.question5.entity.AddedProduct;
 import com.melikeyalpi.question5.entity.Product;
 import com.melikeyalpi.question5.dto.request.ProductRequest;
 import com.melikeyalpi.question5.exception.BasicException;
@@ -9,10 +10,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService {
+
+    private final CartService cartService;
+
+    private final OrderService orderService;
 
     private final ProductRepository productRepository;
 
@@ -36,7 +44,16 @@ public class ProductServiceImpl implements ProductService {
 
 
     public Product updateProduct(Product product) {
-        return productRepository.save(product);
+        try {
+            Product savedProduct =  productRepository.save(product);
+
+            cartService.refreshCart(savedProduct);
+
+            return savedProduct;
+        }catch (Exception e){
+            log.error(ExceptionMessages.DB_OPERATION);
+        }
+        return product;
     }
 
 
@@ -44,7 +61,14 @@ public class ProductServiceImpl implements ProductService {
     public Boolean deleteProduct(Long id) {
         try {
             Product product = productRepository.findById(id).orElse(null);
+
+            List<AddedProduct> addedProduct = new ArrayList<>(product.getAddedProduct());
+
             productRepository.delete(product);
+
+            cartService.refreshCart(addedProduct);
+
+
             return true;
         }catch (Exception e){
             log.error(ExceptionMessages.DB_OPERATION);
@@ -55,6 +79,10 @@ public class ProductServiceImpl implements ProductService {
 
 
     public Product getProduct(Long id) {
-        return productRepository.findById(id).orElse(null);
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null) {
+            throw new BasicException(ExceptionMessages.DATA_NOT_FOUNT);
+        }
+        return product;
     }
 }
