@@ -8,6 +8,8 @@ import com.melikeyalpi.question5.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/product")
 @AllArgsConstructor
@@ -24,6 +26,11 @@ public class ProductController {
     @PostMapping
     private ProductDto createProduct(@RequestBody ProductRequest request){
         return ProductConverter.toDto(productService.createProduct(request));
+    }
+
+    @PostMapping("/save-list")
+    private void createProduct(@RequestBody List<ProductRequest> requestList){
+        requestList.forEach(productService::createProduct);
     }
 
 

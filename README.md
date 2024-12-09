@@ -128,6 +128,8 @@ Müşteri siparişi verdikten sonra aldığı ürünün güncel fiyatını - **p
 
 
 
+Postman den collectiona erişim için ; https://galactic-capsule-19564.postman.co/workspace/Team-Workspace~72492c8c-67a5-431c-8c70-28511db77702/collection/24856693-589e9ad0-4445-4a7a-95b2-ea69c2ecb590?action=share&creator=24856693
+
 
 
 
